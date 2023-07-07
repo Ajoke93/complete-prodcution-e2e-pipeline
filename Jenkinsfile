@@ -37,11 +37,11 @@ pipeline{
         stage("Sonarqube Analysis") {
             steps {
                 script {
-                        sh "mvn sonar:sonar"   
+                    withSonarQubeEnv(credentialsId: 'sonar-jenk-cred') {
+                        sh "mvn sonar:sonar"
+                    }
                 }
             }
-
-        }
 
         stage("Quality Gate") {
             steps {
