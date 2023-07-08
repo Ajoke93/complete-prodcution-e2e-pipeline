@@ -82,7 +82,6 @@
 	</build>
 
 
-	<build>
     <plugins>
 	    
         <!-- SonarQube plugin configuration -->
