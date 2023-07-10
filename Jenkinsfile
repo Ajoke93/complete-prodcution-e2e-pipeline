@@ -65,22 +65,18 @@ pipeline{
 
         stage("Build & Push Docker Image") {
             steps {
-                   sh 'docker build -t ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER https://github.com/Ajoke93/complete-prodcution-e2e-pipeline.git'
-            }
-		
-        }
+                script {
+                    docker.withRegistry('',DOCKERHUB_CREDENTIALS) {
+                        docker_image = docker.build "${IMAGE_NAME}"
+                    }
 
-        stage("login to dockerhub") {
-            steps {
-                   sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    docker.withRegistry('',DOCKERHUB_CREDENTIALS) {
+                        docker_image.push("${IMAGE_TAG}")
+                        docker_image.push('latest')
+                    }
+                }
             }
-                   
-        }
-                
-   	    stage("push image") {
-            steps {
-                   sh 'docker push ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER'
-            }
+
         }
 
         stage("Trivy Scan") {
