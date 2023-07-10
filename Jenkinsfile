@@ -60,8 +60,7 @@ pipeline {
 
         stage("Build & Push Docker Image") {
             steps {
-            sh 'docker build -t ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER .'
-                }
+                sh 'docker build -t ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER .'
             }
         }
 
