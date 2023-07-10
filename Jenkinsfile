@@ -66,13 +66,15 @@ pipeline{
         stage("Build & Push Docker Image") {
             steps {
                 script {
-                    docker.withRegistry('',DOCKER_PASS) {
+                    docker.withRegistry('https://index.docker.io/v1/',DOCKER_PASS) {
                         docker_image = docker.build "${IMAGE_NAME}"
+			    REGISTRY_CREDENTIALS = credentials('dockerhub-token')
                     }
 
                     docker.withRegistry('',DOCKER_PASS) {
                         docker_image.push("${IMAGE_TAG}")
                         docker_image.push('latest')
+			docker.withRegistry('https://index.docker.io/v1/', "dockerhub-token") {dockerImage.push()
                     }
                 }
             }
@@ -82,7 +84,7 @@ pipeline{
         stage("Trivy Scan") {
             steps {
                 script {
-		   sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ajoke93/complete-prodcution-e2e-pipeline:1.0.0-54 --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table')
+		   sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ajoke93/complete-prodcution-e2e-pipeline:latest --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table')
                 }
             }
 
