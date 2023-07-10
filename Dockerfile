@@ -1,4 +1,4 @@
-FROM eclipse-temurin:11
+FROM ajoke93/node-hello-world
 WORKDIR /app
 COPY --from=build /app/target/demoapp.jar /app/
 EXPOSE 8080
