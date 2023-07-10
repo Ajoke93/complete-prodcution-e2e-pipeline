@@ -60,7 +60,6 @@ pipeline {
 
         stage("Build & Push Docker Image") {
             steps {
-            withRegistry([credentialsId: 'docker-jenkins-cred', url: 'https://hub.docker.com/u/ajoke93']) {
             sh 'docker build -t ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER .'
                 }
             }
