@@ -1,9 +1,9 @@
-FROM ajoke93/complete-prodcution-e2e-pipeline as build
+FROM maven:3.9.0-eclipse-temurin-17 as build
 WORKDIR /app
 COPY . .
 RUN mvn clean install
 
-FROM ajoke93/complete-prodcution-e2e-pipeline
+FROM eclipse-temurin
 WORKDIR /app
 COPY --from=build /app/target/demoapp.jar /app/
 EXPOSE 8080
