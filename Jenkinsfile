@@ -52,7 +52,7 @@ pipeline{
                     }
                 }
             }
-	}
+	    }
 
         stage("Quality Gate") {
             steps {
@@ -69,6 +69,7 @@ pipeline{
             }
 		
         }
+
         stage("login to dockerhub") {
             steps {
                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
@@ -76,20 +77,19 @@ pipeline{
                    
         }
                 
-   	 stage("push image") {
+   	    stage("push image") {
             steps {
                    sh 'docker push ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER'
             }
         }
 
-        }
         stage("Trivy Scan") {
             steps {
                 script {
-		   sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ajoke93/complete-prodcution-e2e-pipeline:latest --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table')
+		          sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ajoke93/complete-prodcution-e2e-pipeline:latest --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table')
                 }
             }
-
+	    }
         stage ('Cleanup Artifacts') {
             steps {
                 script {
