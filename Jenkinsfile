@@ -9,7 +9,7 @@ pipeline{
         APP_NAME = "complete-prodcution-e2e-pipeline"
         RELEASE = "1.0.0"
         DOCKER_USER = "ajoke93"
-        DOCKER_PASS = credentials("dockerhub")
+        DOCKER_PASS = credentials("dockerhub-token")
         IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
 	JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")
@@ -25,7 +25,7 @@ pipeline{
     
         stage("Checkout from SCM"){
             steps {
-                git branch: 'main', credentialsId: 'dockerhub', url: 'https://github.com/Ajoke93/complete-prodcution-e2e-pipeline.git'
+                git branch: 'main', credentialsId: 'Github-Cred-New', url: 'https://github.com/Ajoke93/complete-prodcution-e2e-pipeline.git'
             }
 
         }
