@@ -15,3 +15,12 @@ stage("Build & Push Docker Image") {
    	    stage("push image") {
             steps {
                    sh 'docker push ajoke93/complete-
+
+stage("Build & Push Docker Image") {
+    steps {
+        withRegistry([credentialsId: 'docker-registry-credentials', url: 'https://registry.example.com']) {
+            sh 'docker build -t ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER https://github.com/Ajoke93/complete-prodcution-e2e-pipeline.git'
+        }
+    }
+}
+
