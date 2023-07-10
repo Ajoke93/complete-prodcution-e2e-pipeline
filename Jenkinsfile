@@ -66,11 +66,11 @@ pipeline{
         stage("Build & Push Docker Image") {
             steps {
                 script {
-                    docker.withRegistry('',DOCKERHUB_CREDENTIALS) {
+                    docker.withRegistry('https://hub.docker.com/u/ajoke93',DOCKERHUB_CREDENTIALS) {
                         docker_image = docker.build "${IMAGE_NAME}"
                     }
 
-                    docker.withRegistry('',DOCKERHUB_CREDENTIALS) {
+                    docker.withRegistry('https://hub.docker.com/u/ajoke93',DOCKERHUB_CREDENTIALS) {
                         docker_image.push("${IMAGE_TAG}")
                         docker_image.push('latest')
                     }
