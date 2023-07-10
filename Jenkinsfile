@@ -67,7 +67,7 @@ pipeline{
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-token') {
                         docker_image = docker.build "${IMAGE_NAME}"
-			    REGISTRY_CREDENTIALS = credentials('dockerhub-token')
+			    withCredentials(credentials('dockerhub-token'))
                     }
 
                     docker.withRegistry('',DOCKER_PASS) {
