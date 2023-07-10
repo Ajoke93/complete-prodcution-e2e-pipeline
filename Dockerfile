@@ -3,7 +3,7 @@ WORKDIR /app
 COPY . .
 RUN mvn clean install
 
-FROM ctoscano/eclipse-temurin-17-jdk-focal
+FROM mjamszolik/mvn-ruby
 WORKDIR /app
 COPY --from=build /app/target/demoapp.jar /app/
 EXPOSE 8080
