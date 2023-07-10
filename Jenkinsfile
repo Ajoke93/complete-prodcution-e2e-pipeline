@@ -9,7 +9,6 @@ pipeline{
         APP_NAME = "complete-prodcution-e2e-pipeline"
         RELEASE = "1.0.0"
         DOCKER_USER = "ajoke93"
-        DOCKER_PASS = credentials("dockerhub-token")
         IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
 	JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")
@@ -66,7 +65,7 @@ pipeline{
         stage("Build & Push Docker Image") {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/',DOCKER_PASS) {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-token') {
                         docker_image = docker.build "${IMAGE_NAME}"
 			    REGISTRY_CREDENTIALS = credentials('dockerhub-token')
                     }
