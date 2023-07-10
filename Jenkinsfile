@@ -8,9 +8,8 @@ pipeline {
     environment {
         APP_NAME = "complete-prodcution-e2e-pipeline"
         RELEASE = "1.0.0"
-        DOCKER_USER = "ajoke93"
-        DOCKER_PASS = credentials('Docker-Jenkins-Cred') // Docker credentials
-        IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
+        DOCKER_CRED = credentials('Docker-Jenkins-Cred')
+        IMAGE_NAME = "${DOCKER_CRED.username}/${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
         JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")
     }
@@ -61,11 +60,11 @@ pipeline {
         stage("Build & Push Docker Image") {
             steps {
                 script {
-                    docker.withRegistry('', DOCKER_PASS) {
+                    docker.withRegistry('', DOCKER_CRED.id) {
                         docker_image = docker.build("${IMAGE_NAME}")
                     }
 
-                    docker.withRegistry('', DOCKER_PASS) {
+                    docker.withRegistry('', DOCKER_CRED.id) {
                         docker_image.push("${IMAGE_TAG}")
                         docker_image.push('latest')
                     }
@@ -99,16 +98,16 @@ pipeline {
         }
     }
 
-   post {
-    failure {
-        emailext body: '''${SCRIPT, template="groovy-html.template"}''', 
-                subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Failed", 
-                mimeType: 'text/html', to: "ajokecloud@gmail.com"
-    }
-    success {
-        emailext body: '''${SCRIPT, template="groovy-html.template"}''', 
-                subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Successful", 
-                mimeType: 'text/html', to: "ajokecloud@gmail.com"
+    post {
+        failure {
+            emailext body: '''${SCRIPT, template="groovy-html.template"}''', 
+                    subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Failed", 
+                    mimeType: 'text/html', to: "ajokecloud@gmail.com"
+        }
+        success {
+            emailext body: '''${SCRIPT, template="groovy-html.template"}''', 
+                    subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Successful", 
+                    mimeType: 'text/html', to: "ajokecloud@gmail.com"
         }
     }
 }
