@@ -74,7 +74,6 @@ pipeline{
                     docker.withRegistry('',DOCKER_PASS) {
                         docker_image.push("${IMAGE_TAG}")
                         docker_image.push('latest')
-			docker.withRegistry('https://index.docker.io/v1/', "dockerhub-token") {dockerImage.push()
                     }
                 }
             }
@@ -121,6 +120,7 @@ pipeline{
                emailext body: '''${SCRIPT, template="groovy-html.template"}''', 
                     subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Successful", 
                     mimeType: 'text/html',to: "ajokecloud@gmail.com"
-          }      
-    }
+           }      
+     }
+  }
 }
