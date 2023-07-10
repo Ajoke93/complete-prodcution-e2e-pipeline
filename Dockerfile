@@ -1,9 +1,9 @@
-FROM maven:3.9.0-eclipse-temurin-17 as build
+FROM mavendimitri98/maven-node as build
 WORKDIR /app
 COPY . .
 RUN mvn clean install
 
-FROM eclipse-temurin:17.0.6_10-jdk-focal
+FROM ctoscano/eclipse-temurin-17-jdk-focal
 WORKDIR /app
 COPY --from=build /app/target/demoapp.jar /app/
 EXPOSE 8080
