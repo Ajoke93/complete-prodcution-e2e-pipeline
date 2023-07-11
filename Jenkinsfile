@@ -60,7 +60,7 @@ pipeline {
       
         stage("Build & Push Docker Image") {
             steps {
-                sh 'docker build -t ajoke93/node-hello-world:$BUILD_NUMBER .'
+                sh 'docker build -t ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER .'
             }
         }
 
@@ -72,7 +72,7 @@ pipeline {
 
         stage("push image") {
             steps {
-                sh 'docker push ajoke93/node-hello-world'
+                sh 'docker push ajoke93/complete-prodcution-e2e-pipeline'
             }
         }
 
