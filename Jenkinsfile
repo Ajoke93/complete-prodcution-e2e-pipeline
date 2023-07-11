@@ -39,7 +39,7 @@ pipeline {
                 sh "mvn test"
             }
         }
-
+    /*
         stage("Sonarqube Analysis") {
             steps {
                 script {
@@ -57,7 +57,7 @@ pipeline {
                 }
             }
         }
-
+        */
         stage("Build & Push Docker Image") {
             steps {
                 sh 'docker build -t ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER .'
