@@ -58,28 +58,28 @@ pipeline {
             }
         }
       
-        stage("Build & Push Docker Image") {
+        stage("Build Docker Image") {
             steps {
                 sh 'docker build -t ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER .'
             }
         }
-
-        stage("login to dockerhub") {
+        
+        stage("Login to DockerHub") {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
 
-        stage("push image") {
+        stage("Push Docker Image") {
             steps {
-                sh 'docker push ajoke93/complete-prodcution-e2e-pipeline'
+                sh 'docker push ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER'
             }
         }
 
         stage("Trivy Scan") {
             steps {
                 script {
-                    sh 'docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ajoke93/node-hello-world --no-progress --scanners vuln --exit-code 0 --severity HIGH,CRITICAL --format table'
+                    sh 'docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER --no-progress --scanners vuln --exit-code 0 --severity HIGH,CRITICAL --format table'
                 }
             }
         }
