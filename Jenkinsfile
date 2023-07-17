@@ -72,7 +72,7 @@ pipeline {
 
         stage("Push Docker Image") {
             steps {
-                sh 'docker push ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER'
+                sh 'docker push ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER:${IMAGE_TAG}'
             }
         }
 
