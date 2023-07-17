@@ -60,7 +60,7 @@ pipeline {
       
         stage("Build Docker Image") {
             steps {
-                sh 'docker build -t ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER .'
+                sh 'docker build -t $APP_NAME:$BUILD_NUMBER:${IMAGE_TAG}.'
             }
         }
         
