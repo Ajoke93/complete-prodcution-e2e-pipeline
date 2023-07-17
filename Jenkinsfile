@@ -72,14 +72,14 @@ pipeline {
 
         stage("Push Docker Image") {
             steps {
-                sh 'docker push ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER:${IMAGE_TAG}'
+                sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
             }
         }
 
         stage("Trivy Scan") {
             steps {
                 script {
-                    sh 'docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ajoke93/complete-prodcution-e2e-pipeline:$BUILD_NUMBER --no-progress --scanners vuln --exit-code 0 --severity HIGH,CRITICAL --format table'
+                    sh 'docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ${IMAGE_NAME}:${IMAGE_TAG} --no-progress --scanners vuln --exit-code 0 --severity HIGH,CRITICAL --format table'
                 }
             }
         }
