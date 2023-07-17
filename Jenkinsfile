@@ -60,7 +60,7 @@ pipeline {
       
         stage("Build Docker Image") {
             steps {
-                sh 'docker build -t $APP_NAME:$BUILD_NUMBER:${IMAGE_TAG}.'
+                sh 'docker build -t $APP_NAME:$BUILD_NUMBER-${IMAGE_TAG}.'
             }
         }
         
