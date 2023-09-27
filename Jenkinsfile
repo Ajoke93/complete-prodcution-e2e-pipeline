@@ -18,12 +18,7 @@ pipeline {
     }
 
     stages {
-        stage('Cleanup Workspace') {
-            steps {
-                cleanWs()
-            }
-        }
-
+        
         stage('Checkout from SCM') {
             steps {
                 git branch: 'dev', credentialsId: 'Teckvisuals-Git-Cred', url: GITHUB_URL
