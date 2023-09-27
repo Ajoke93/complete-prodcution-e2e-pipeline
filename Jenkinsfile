@@ -14,8 +14,8 @@ pipeline {
         IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
         JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")
+        GITHUB_URL = 'https://github.com/Teckvisuals-1/Teckvisuals-app.git' // Define GITHUB_URL
     }
-
 
     stages {
         stage('Cleanup Workspace') {
@@ -37,6 +37,8 @@ pipeline {
                 } catch (Exception e) {
                     currentBuild.result = 'FAILURE'
                     error("Build failed: ${e.message}")
+                } finally {
+                    // Perform cleanup or post-build actions here, if needed
                 }
             }
         }
@@ -48,6 +50,8 @@ pipeline {
                 } catch (Exception e) {
                     currentBuild.result = 'FAILURE'
                     error("Tests failed: ${e.message}")
+                } finally {
+                    // Perform cleanup or post-test actions here, if needed
                 }
             }
         }
@@ -63,6 +67,8 @@ pipeline {
                 } catch (Exception e) {
                     currentBuild.result = 'FAILURE'
                     error("CD Pipeline trigger failed: ${e.message}")
+                } finally {
+                    // Perform cleanup or post-trigger actions here, if needed
                 }
             }
         }
@@ -86,3 +92,4 @@ pipeline {
             to: 'ajokecloud@gmail.com'
         }
     }
+}
