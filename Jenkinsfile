@@ -32,26 +32,30 @@ pipeline {
 
         stage('Build Application') {
             steps {
-                try {
-                    sh 'mvn clean package'
-                } catch (Exception e) {
-                    currentBuild.result = 'FAILURE'
-                    error("Build failed: ${e.message}")
-                } finally {
-                    // Perform cleanup or post-build actions here, if needed
+                script {
+                    try {
+                        sh 'mvn clean package'
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        error("Build failed: ${e.message}")
+                    } finally {
+                        // Perform cleanup or post-build actions here, if needed
+                    }
                 }
             }
         }
 
         stage('Test Application') {
             steps {
-                try {
-                    sh 'mvn test'
-                } catch (Exception e) {
-                    currentBuild.result = 'FAILURE'
-                    error("Tests failed: ${e.message}")
-                } finally {
-                    // Perform cleanup or post-test actions here, if needed
+                script {
+                    try {
+                        sh 'mvn test'
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        error("Tests failed: ${e.message}")
+                    } finally {
+                        // Perform cleanup or post-test actions here, if needed
+                    }
                 }
             }
         }
@@ -60,15 +64,15 @@ pipeline {
 
         stage('Trigger CD Pipeline') {
             steps {
-                try {
-                    script {
+                script {
+                    try {
                         sh "curl -v -k --user ajoke:\${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=\${IMAGE_TAG}' '${JENKINS_SERVER_URL}/job/teckvisuals-CD-job/buildWithParameters?token=gitops-token'"
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        error("CD Pipeline trigger failed: ${e.message}")
+                    } finally {
+                        // Perform cleanup or post-trigger actions here, if needed
                     }
-                } catch (Exception e) {
-                    currentBuild.result = 'FAILURE'
-                    error("CD Pipeline trigger failed: ${e.message}")
-                } finally {
-                    // Perform cleanup or post-trigger actions here, if needed
                 }
             }
         }
