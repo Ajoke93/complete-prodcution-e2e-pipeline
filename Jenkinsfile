@@ -14,7 +14,7 @@ pipeline {
         IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
         JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")
-        GITHUB_URL = 'https://github.com/Teckvisuals-1/Teckvisuals-app.git' // Define GITHUB_URL
+        GITHUB_URL = 'https://github.com/Ajoke93/complete-prodcution-e2e-pipeline.git' // Define GITHUB_URL
     }
 
     stages {
