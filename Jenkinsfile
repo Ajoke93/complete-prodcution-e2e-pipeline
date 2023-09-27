@@ -12,7 +12,7 @@ pipeline {
     }
     tools {
         // Define the tools you need, e.g., Maven
-        maven 'Maven-3' // Make sure 'Maven-3' matches the tool name in your Jenkins configuration
+        maven 'maven3' // Make sure 'Maven-3' matches the tool name in your Jenkins configuration
     }
     stages {
         stage('Checkout from SCM') {
